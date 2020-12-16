@@ -1,0 +1,38 @@
+server:
+  port: 8083
+#  servlet:
+#    context-path: /auth
+
+spring:
+  datasource:
+    url: jdbc:h2:file:/tmp/testdb;AUTO_SERVER=TRUE
+    username: sa
+    password: password
+    driver-class-name: org.h2.Driver
+    hikari:
+      maximum-pool-size: 10
+
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    show-sql: true
+    format-sql: true
+
+  h2:
+    console:
+      enabled: true
+
+#  liquibase:
+#    enabled: true
+#    change-log: database/liquibase-changelog.xml
+
+logging:
+  level:
+    liquibase: INFO
+
+keycloak:
+  server:
+    contextPath: /auth
+    adminUser:
+      username: admin
+      password: admin
+    realmImportFile: dev-realm.json

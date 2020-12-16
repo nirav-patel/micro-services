@@ -1,0 +1,59 @@
+server:
+  port: 8081
+  servlet:
+    context-path: /account
+
+service:
+  registry:
+    customer-service: customer-service
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka
+    instance:
+    preferIpAddress: true
+
+feign:
+  client:
+    config:
+      default:
+        connectTimeout: 5000
+        readTimeout: 5000
+        loggerLevel: basic
+
+spring:
+  application:
+    name: account-service
+
+  datasource:
+    url: jdbc:h2:file:/tmp/testdb;AUTO_SERVER=TRUE
+    username: sa
+    password: password
+    driver-class-name: org.h2.Driver
+    hikari:
+      maximum-pool-size: 10
+
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    show-sql: true
+    format-sql: true
+
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:8083/auth/realms/dev
+          jwk-set-uri: http://localhost:8083/auth/realms/dev/protocol/openid-connect/certs
+
+  h2:
+    console:
+      enabled: true
+
+  liquibase:
+    enabled: true
+    change-log: database/liquibase-changelog.xml
+
+logging:
+  level:
+    liquibase: INFO

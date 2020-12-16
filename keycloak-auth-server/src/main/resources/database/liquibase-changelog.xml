@@ -1,0 +1,88 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.2.xsd">
+
+    <changeSet id="create_table_role" author="nirav.patel">
+        <createTable tableName="role">
+            <column name="role_id" type="varchar(50)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="role_name" type="varchar(50)">
+                <constraints nullable="false" uniqueConstraintName="role_unique_role_name"/>
+            </column>
+            <column name="role_code" type="varchar(50)">
+                <constraints nullable="false" uniqueConstraintName="role_unique_role_code"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="create_table_user" author="nirav.patel">
+        <createTable tableName="user">
+            <column name="user_id" type="varchar(50)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="user_name" type="varchar(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="dob" type="date"/>
+            <column name="gender" type="char">
+                <constraints nullable="false"/>
+            </column>
+            <column name="phone_number" type="varchar(50)"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="create_table_user_auth" author="nirav.patel">
+        <createTable tableName="user_auth">
+            <column name="id" type="int" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="user_id" type="varchar(50)" remarks="FK to User table">
+                <constraints nullable="false" foreignKeyName="FK_UA_U"
+                             referencedTableName="user" referencedColumnNames="user_id"/>
+            </column>
+            <column name="role_id" type="varchar(50)" remarks="FK to Role table">
+                <constraints nullable="false" foreignKeyName="FK_UA_R"
+                             referencedTableName="role" referencedColumnNames="role_id"/>
+            </column>
+            <column name="passwd" type="varchar(64)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="insert-default-roles" author="nirav.patel">
+        <sql>
+            <![CDATA[
+                 INSERT INTO role (role_id, role_name, role_code) VALUES
+                    ('role1', 'ROLE_CUSTOMER', 'Customer'),
+                    ('role2', 'ROLE_MANAGER', 'Branch Manager');
+            ]]>
+        </sql>
+    </changeSet>
+
+    <changeSet id="insert-default-users" author="nirav.patel">
+        <sql>
+            <![CDATA[
+               INSERT INTO user (user_id, user_name, dob, gender, phone_number) VALUES
+                  ('user1', 'admin', '1985-03-17', 'Female','9000888777'),
+                  ('user2', 'nirav', '1989-11-29', 'Male','9000888666'),
+                  ('user3', 'test',  '2002-10-05', 'Male', '');
+            ]]>
+        </sql>
+    </changeSet>
+
+    <changeSet id="insert-default-roles" author="nirav.patel">
+        <sql>
+            <![CDATA[
+                 INSERT INTO role (id, user_id, role_id) VALUES
+                    ('1', 'user1', 'role2'),
+                    ('2', 'user2', 'role1'),
+                    ('3', 'user3', 'role1');
+            ]]>
+        </sql>
+    </changeSet>
+
+</databaseChangeLog>

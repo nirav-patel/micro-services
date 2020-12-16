@@ -1,0 +1,59 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.2.xsd">
+
+<!--    <changeSet id="create_table_user" author="nirav.patel">-->
+<!--        <createTable tableName="user">-->
+<!--            <column name="user_id" type="varchar(50)">-->
+<!--                <constraints primaryKey="true" nullable="false"/>-->
+<!--            </column>-->
+<!--            <column name="user_name" type="varchar(50)">-->
+<!--                <constraints nullable="true"/>-->
+<!--            </column>-->
+<!--            <column name="dob" type="date"/>-->
+<!--            <column name="gender" type="char">-->
+<!--                <constraints nullable="false"/>-->
+<!--            </column>-->
+<!--            <column name="phone_number" type="varchar(50)"/>-->
+<!--        </createTable>-->
+<!--    </changeSet>-->
+<!--    <changeSet id="insert-default-users" author="nirav.patel">-->
+<!--        <sql>-->
+<!--            <![CDATA[-->
+<!--               INSERT INTO user (user_Id, user_Name, dob, gender, phone_Number) VALUES-->
+<!--                  ('user1', 'admin', '1985-03-17', 'Female','9000888'),-->
+<!--                  ('user2', 'test',  '2002-10-05', 'Male','');-->
+<!--            ]]>-->
+<!--        </sql>-->
+<!--    </changeSet>-->
+
+    <changeSet id="create_table_account" author="nirav.patel">
+        <createTable tableName="account">
+            <column name="id" type="int" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="account_type" type="varchar(50)"/>
+            <column name="open_date" type="date"/>
+            <column name="customer_id" type="varchar(50)" remarks="FK to User table">
+                <constraints nullable="false" foreignKeyName="FK_A_U"
+                             referencedTableName="user" referencedColumnNames="user_id"/>
+            </column>
+            <column name="customer_name" type="varchar(50)"/>
+            <column name="branch" type="varchar(50)"/>
+            <column name="minor_indicator" type="char"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="insert-default-accounts" author="nirav.patel">
+        <sql>
+            <![CDATA[
+                 INSERT INTO account(id, account_type, open_date, customer_id, customer_name, branch, minor_indicator) VALUES
+                    (1, 'type1', '2020-06-15', 'user1', 'Cust1','Mumbai', 1),
+                    (2, 'type1', '2020-05-05', 'user1', 'Cust2','Mumbai', 1);
+            ]]>
+        </sql>
+    </changeSet>
+
+</databaseChangeLog>
